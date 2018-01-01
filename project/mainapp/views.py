@@ -1,7 +1,9 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import View
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template import loader
 import facebook
 
 from mainapp.forms import UserForm
@@ -80,25 +82,27 @@ class SignUp(View):
 
         return render(request, 'mainapp/signup.html',context=context)
 
-class Dashboard(View):
+class Dashboard(LoginRequiredMixin, View):
         
     def get(self, request):
-        # import pdb;pdb.set_trace()
-        user_obj = User.objects.get(id=request.user.id)
-        if not user_obj.email:
-            username = user_obj.username
-            first_name = user_obj.first_name
-            last_name = user_obj.last_name
-            form = UserForm(request.POST or None)
-            context= {
-                "form": form,
-                'username': username,
-                'first_name': first_name,
-                'last_name': last_name
-            }
-            return render(request, 'mainapp/signup.html',context)
-        else:
-            login(request, user_obj)
+        context = {}
+        template = loader.get_template('app/index.html')
+        # return render(request,'mainapp/dashboard.html', {'msg_card':'','items':'','user':'user', 'status':'',
+        #         'unfollow': 'unfollow_status'})
+        return HttpResponse(template.render(context, request))
         
-        return render(request,'mainapp/dashboard.html', {'msg_card':'','items':'','user':'user', 'status':'',
-                'unfollow': 'unfollow_status'})
+
+def gentella_html(request):
+    context = {}
+    # The template to be loaded as per gentelella.
+    # All resource paths for gentelella end in .html.
+
+    # Pick out the html file name from the url. And load that template.
+    load_template = request.path.split('/')[-1]
+    template = loader.get_template('app/' + load_template)
+    return HttpResponse(template.render(context, request))
+
+def index(request):
+    context = {}
+    template = loader.get_template('app/index.html')
+    return HttpResponse(template.render(context, request))

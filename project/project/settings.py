@@ -75,12 +75,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.facebook.FacebookOAuth2',
 )
 
 # social auth views
-LOGIN_URL = 'app/login'
-LOGOUT_URL = 'app/logout'
+LOGIN_URL = '/app/login/'
+LOGOUT_URL = '/app/logout/'
 LOGIN_REDIRECT_URL = 'app/home'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '2058518294383903'  # App ID
@@ -142,10 +143,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Add these new lines
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 STATIC_URL = '/static/'

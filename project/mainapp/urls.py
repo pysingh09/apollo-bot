@@ -14,12 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from mainapp.views import Login, Logout, SignUp, HomePage, Dashboard
+from mainapp.views import Login, Logout, SignUp, HomePage, Dashboard, gentella_html, index
+from django.conf.urls import url, include
 
 urlpatterns = [
-    path('login/', Login.as_view(), name='login'),
-    path('logout/', Logout.as_view(), name='logout'),
-    path('signup/', SignUp.as_view(), name='signup'),
-    path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    url('login/', Login.as_view(), name='login'),
+    url('logout/', Logout.as_view(), name='logout'),
+    url('signup/', SignUp.as_view(), name='signup'),
+    url('dashboard/', Dashboard.as_view(), name='dashboard'),
+    url(r'^.*\.html', gentella_html, name='gentella'),
+
+    # The home page
+    url(r'^$', index, name='index'),
 ]
