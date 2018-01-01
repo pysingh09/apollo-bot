@@ -29,7 +29,7 @@ class Home(View):
         
 class Login(View):
     def get(self, request):
-        return render(request, 'mainapp/login.html')
+        return render(request, 'app/login.html')
 
     def post(self,request):
         # username = request.POST['username']

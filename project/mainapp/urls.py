@@ -25,5 +25,5 @@ urlpatterns = [
     url(r'^.*\.html', gentella_html, name='gentella'),
 
     # The home page
-    url(r'^$', index, name='index'),
+    url(r'^$', Login.as_view(), name='index'),
 ]
