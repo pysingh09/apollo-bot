@@ -26,6 +26,11 @@ class Logout(View):
 class Home(View):
     def get(self, request):
         return render(request, 'mainapp/landing.html')
+
+class PrivacyPolicy(View):
+    
+    def get(self, request):
+        return render(request, 'mainapp/privacy_policy.html')
         
 class Login(View):
     def get(self, request):
