@@ -85,7 +85,7 @@ class SignUp(View):
 
         return render(request, 'mainapp/signup.html',context=context)
 
-class Dashboard(LoginRequiredMixin, View):
+class Dashboard(View):
         
     def get(self, request):
         context = {}
