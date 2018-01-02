@@ -20,6 +20,7 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     url('login/', Login.as_view(), name='login'),
+    url('home/', Login.as_view(), name='index'),
     url('logout/', Logout.as_view(), name='logout'),
     url('signup/', SignUp.as_view(), name='signup'),
     url('privacy_policy/', PrivacyPolicy.as_view(), name='privacy_policy'),
@@ -27,5 +28,5 @@ urlpatterns = [
     url(r'^.*\.html', gentella_html, name='gentella'),
 
     # The home page
-    url(r'^$', Login.as_view(), name='index'),
+    url(r'^$', HomePage.as_view(), name='homepage'),
 ]

@@ -28,7 +28,7 @@ class Home(View):
         return render(request, 'mainapp/landing.html')
 
 class PrivacyPolicy(View):
-    
+
     def get(self, request):
         return render(request, 'mainapp/privacy_policy.html')
         
@@ -62,10 +62,8 @@ class SignUp(View):
 
     def get(self, request):
         form = UserForm(request.POST or None)
-        context = {
-            "form": form,
-        }
-        return render(request, 'mainapp/signup.html',context)
+        
+        return render(request, 'app/signup.html', {})
 
     def post(self, request):
 
