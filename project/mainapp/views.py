@@ -7,13 +7,12 @@ from django.template import loader
 import facebook
 
 from mainapp.forms import UserForm
+from mainapp import utils
 
 
 # Create your views here.
 class HomePage(View):
     def get(self, request):
-        # token = "EAAdQNiOzTR8BADZBus9Gg1oCvF1QjLcb5QXUJHpgDBIldbQzgVBsghmsCBz1zHqLCXYBrdJQLbY912MQMNM5mm0yyPM3f2uiuo437YYA7Ex6aIncCXXFJQLZAQhI5BSHelhwUqkFz4b8WVfxvMPoRg73EeZAm8s9nN1NHtORtvycZCN0NlctT5tavWzOkfrKaZAAe3C6EKQZDZD"
-        # graph = facebook.GraphAPI(access_token=token, version="2.1")
         return render(request, 'mainapp/landing.html')
 
 
@@ -88,7 +87,14 @@ class SignUp(View):
 class Dashboard(View):
         
     def get(self, request):
-        context = {}
+        social = request.user.social_auth.get(provider='facebook')
+        token = social.extra_data['access_token']
+        res = utils.listUsersPage(token)
+        pages = res['data']
+        page_data = []
+        for page in res['data']:
+            page_data.append({'name': page['name'], 'id': page['id']})
+        context = {'pages': page_data}
         template = loader.get_template('app/index.html')
         # return render(request,'mainapp/dashboard.html', {'msg_card':'','items':'','user':'user', 'status':'',
         #         'unfollow': 'unfollow_status'})
