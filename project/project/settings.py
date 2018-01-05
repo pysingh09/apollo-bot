@@ -79,10 +79,14 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
 )
 
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.associate_by_email',  # <--- enable this one
+)
+
 # social auth views
 LOGIN_URL = '/app/login/'
 LOGOUT_URL = '/app/logout/'
-LOGIN_REDIRECT_URL = 'app/home'
+LOGIN_REDIRECT_URL = 'app/dashboard'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '2058518294383903'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = '06bdfbf9586872bbb2971994a1147afc'  # App Secret

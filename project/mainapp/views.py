@@ -7,6 +7,7 @@ from django.template import loader
 import facebook
 
 from mainapp.forms import UserForm
+from mainapp.models import UserPage
 from mainapp import utils
 
 
@@ -19,7 +20,7 @@ class HomePage(View):
 class Logout(View):
     def get(self,request):
         logout(request)
-        return redirect('index')
+        return redirect('login')
 
 
 class Home(View):
@@ -36,16 +37,13 @@ class Login(View):
         return render(request, 'app/login.html')
 
     def post(self,request):
-        # username = request.POST['username']
-        # password = request.POST['password']
-        # user = authenticate(username=username, password=password)
-        # if user is not None:
-        #     if user.is_active:
-        #         login(request, user)
-        #         return redirect('index')
-        #     else:
-        #         return render(request, 'login.html', {'error_message': 'Invalid login'})
-        return render(request, 'mainapp/login.html', {'error_message': 'Invalid login'})
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username.lower(), password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('dashboard')
+        return redirect('login')
 
 
 class SignUp(View):
@@ -60,33 +58,41 @@ class SignUp(View):
             return ""
 
     def get(self, request):
-        form = UserForm(request.POST or None)
-        
-        return render(request, 'app/signup.html', {})
+        context = {
+            'username': ''
+        }
+        template = loader.get_template('app/signup.html')
+        return HttpResponse(template.render(context, request))
 
     def post(self, request):
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        if not request.user.is_anonymous:
+            print("in if")
+            user = request.user
+            user.username = username
+            user.email = email
+            user.set_password(password)
+        else:
+            print("in else")
+            user = User()
+            user.email = email
+            user.username = username
+            user.set_password(password)
+        user.save()
+        return redirect('dashboard')
 
-        # form = UserForm(request.POST or None)
-        # if form.is_valid():
-        #     user = form.save(commit=False)
-        #     username = form.cleaned_data['username']
-        #     password = form.cleaned_data['password']
-        #     user.set_password(password)
-        #     user.save()
-        #     user = authenticate(username=username, password=password)
-        #     if user is not None:
-        #         if user.is_active:
-        #             login(request, user)
-        #             return redirect('index')
-        context = {
-            "form": form,
-        }
-
-        return render(request, 'mainapp/signup.html',context=context)
-
-class Dashboard(View):
+class Dashboard(LoginRequiredMixin, View):
         
     def get(self, request):
+        user = request.user
+        if not user.has_usable_password():
+            context = {
+                'username': user.username
+            }
+            template = loader.get_template('app/signup.html')
+            return HttpResponse(template.render(context, request))
         social = request.user.social_auth.get(provider='facebook')
         token = social.extra_data['access_token']
         res = utils.listUsersPage(token)
@@ -94,10 +100,19 @@ class Dashboard(View):
         page_data = []
         for page in res['data']:
             page_data.append({'name': page['name'], 'id': page['id']})
-        context = {'pages': page_data}
+
+            # storing page details in db
+            obj = UserPage.objects.filter(user=user, page_id=page['id'])
+            if not obj:
+                new_page = UserPage()
+                new_page.user = user
+                new_page.page_name = page['name']
+                new_page.page_id = page['id']
+                new_page.save()
+
+        user_pages = UserPage.objects.filter(user=user)
+        context = {'pages': user_pages}
         template = loader.get_template('app/index.html')
-        # return render(request,'mainapp/dashboard.html', {'msg_card':'','items':'','user':'user', 'status':'',
-        #         'unfollow': 'unfollow_status'})
         return HttpResponse(template.render(context, request))
         
 
