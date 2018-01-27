@@ -7,8 +7,9 @@ from django.template import loader
 import facebook
 
 from mainapp.forms import UserForm
-from mainapp.models import UserPage
+from mainapp.models import UserPage, BusinessAccountDetails
 from mainapp import utils
+from datetime import date
 
 
 # Create your views here.
@@ -83,6 +84,29 @@ class SignUp(View):
         user.save()
         return redirect('dashboard')
 
+def store_details(user, data):
+    # {'follows_count': 12, 'total_like_count': 1, 'total_comment_count': 0, 'followers_count': 0}
+    create_new = False
+    try:
+        obj = BusinessAccountDetails.objects.filter(user=user).latest('date')
+        if obj.date != date.today():
+            if obj.follows_count != data['follows_count'] or obj.followers_count != data['followers_count'] or obj.total_like_count != data['total_like_count'] or obj.total_comment_count != data['total_comment_count']:
+                # create new record here
+                create_new = True
+
+        print("obj", obj);
+        # update current date record here
+    except Exception as e:
+        create_new = True
+    
+    BusinessAccountDetails.objects.create(
+        user=user,
+        follows_count=data['follows_count'],
+        followers_count=data['followers_count'],
+        total_like_count=data['total_like_count'],
+        total_comment_count=data['total_comment_count'])
+
+
 class Dashboard(LoginRequiredMixin, View):
         
     def get(self, request):
@@ -109,10 +133,32 @@ class Dashboard(LoginRequiredMixin, View):
                 new_page.page_name = page['name']
                 new_page.page_id = page['id']
                 new_page.save()
+        user_pages = UserPage.objects.filter(user=user).first()
+        if user_pages.business_account_id == None:
+            res = utils.businessAccount(user_pages.page_id, token)
+            business_account_id = res['instagram_business_account']['id']
+            user_pages.business_account_id = business_account_id
+            user_pages.save()
+        response = utils.getFollowers(user_pages.business_account_id, token)
+        
+        card_row = {'total_like_count': 0, 'total_comment_count': 0, 'follows_count': 0, 'followers_count': 0}
+        
+        media_response = utils.mediaCounts(user_pages.business_account_id, token)
+        for item in media_response['media']['data']:
+            card_row['total_comment_count'] += item['comments_count']
+            card_row['total_like_count'] += item['like_count']
 
-        user_pages = UserPage.objects.filter(user=user)
-        context = {'pages': user_pages}
-        template = loader.get_template('app/index.html')
+        print("response", response)
+        card_row['follows_count'] = response['follows_count']
+        card_row['followers_count'] = response['followers_count']
+        
+        # storing details in database
+        store_details(user, card_row)
+
+        print("followers", card_row)
+
+        context = {'pages': [user_pages], 'data': card_row}
+        template = loader.get_template('dashboard.html')
         return HttpResponse(template.render(context, request))
         
 
