@@ -5,7 +5,7 @@ LIST_ALL_PAGES = 'me/accounts/?access_token='
 PAGE_DETAILS = '?fields=username,followers_count,name,media{media_type,media_url,comments_count,id}'
 FOLLOWERS_FOLLOWING = '?fields=follows_count,followers_count&access_token='
 INSTAGRAM_BUSINESS_ACCOUNT = '?fields=instagram_business_account&access_token='
-MEDIA_COUNTS = '?fields=media{like_count,comments_count}&access_token='
+MEDIA_COUNTS = '?fields=profile_picture_url,username,media{like_count,comments_count}&access_token='
 
 def listUsersPage(token):
 	res = requests.get(ROOT_URL+LIST_ALL_PAGES+token)

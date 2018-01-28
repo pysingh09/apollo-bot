@@ -151,11 +151,10 @@ class Dashboard(LoginRequiredMixin, View):
         print("response", response)
         card_row['follows_count'] = response['follows_count']
         card_row['followers_count'] = response['followers_count']
-        
+        card_row['profile_url'] = media_response['profile_picture_url']
+        card_row['user_name'] = media_response['username']
         # storing details in database
         store_details(user, card_row)
-
-        print("followers", card_row)
 
         context = {'pages': [user_pages], 'data': card_row}
         template = loader.get_template('dashboard.html')
