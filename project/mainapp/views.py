@@ -43,7 +43,7 @@ class Login(View):
         user = authenticate(username=username.lower(), password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            return redirect('watson')
         return redirect('login')
 
 

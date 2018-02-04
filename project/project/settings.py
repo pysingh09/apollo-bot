@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
-    'mainapp'
+    'mainapp',
+    'ibm_watson'
 ]
 
 MIDDLEWARE = [

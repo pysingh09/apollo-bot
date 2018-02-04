@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^app/', include('mainapp.urls')),
     url('oauth/', include('social_django.urls', namespace='social')),
     url(r'^', include('mainapp.urls')),
+    url(r'^', include('ibm_watson.urls')),
 ]
