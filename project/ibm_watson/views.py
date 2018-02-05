@@ -23,7 +23,7 @@ class WatsonDashboard(View):
       text = request.POST['text']
       if type_ == 'tone':
         headers = {'content-type': 'text/plain;charset=utf-8'}
-        payload = text
+        payload = text.encode('utf-8')
         res = requests.post(url='https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21',
             data= payload,
             headers= headers,
@@ -72,7 +72,7 @@ class WatsonDashboard(View):
       # curl -X POST --user "afac5070-e852-4695-ad00-a576bf09af5a":"mE7wE5vQPZJd" --header "Content-Type: text/plain;charset=utf-8" --data-binary "@/home/laptop30/Downloads/profile.json" "https://gateway.watsonplatform.net/personality-insights/api/v3/profile?version=2017-10-13"
       headers = {'content-type': 'text/plain;charset=utf-8'}
       user = {"afac5070-e852-4695-ad00-a576bf09af5a":"mE7wE5vQPZJd"}
-      payload = text
+      payload = text.encode('utf-8')
       res = requests.post(url='https://gateway.watsonplatform.net/personality-insights/api/v3/profile?version=2017-10-13',
           data= payload,
           headers= headers,
