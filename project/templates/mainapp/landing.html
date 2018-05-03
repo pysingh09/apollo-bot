@@ -1,0 +1,209 @@
+{% load static %}
+<html lang="en">
+<head>
+
+   <!--- basic page needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Apollo Bot</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+   <!-- mobile specific metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+ 	<!-- CSS
+   ================================================== -->
+   <link rel="stylesheet" href="{% static 'landing/css/base.css' %}">
+   <link rel="stylesheet" href="{% static 'landing/css/main.css' %}">
+   <link rel="stylesheet" href="{% static 'landing/css/vendor.css' %}">
+
+   <!-- script
+   ================================================== -->
+	<script src="js/modernizr.js"></script>
+
+   <!-- favicons
+	================================================== -->
+	<link rel="icon" type="image/png" href="favicon.png">
+
+<style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head>
+
+<body id="top">
+
+	<!-- header
+   ================================================== -->
+   <header>
+
+   	<div class="row">
+
+   		<div style="margin-top: 20px;">
+            <a style="color: whitesmoke; font-size: 30px;font-style: italic" href="{% url 'index' %}">Apollo Bot</a>
+	      </div>
+	   	<nav id="main-nav-wrap">
+				<ul class="main-navigation">
+					<li><a class="smoothscroll" href="{% url 'login' %}" title="">Sign In</a></li>
+					<li class="highlight with-sep"><a href="{% url 'signup' %}" title="">Sign Up</a></li>
+				</ul>
+			</nav>
+
+			<a class="menu-toggle" href="#"><span>Menu</span></a>
+
+   	</div>
+
+   </header> <!-- /header -->
+
+	<!-- intro section
+   ================================================== -->
+   <section id="intro">
+
+   	<div class="shadow-overlay"></div>
+
+   	<div class="intro-content">
+   		<div class="row">
+
+   			<div class="col-twelve">
+
+	   			<div class="video-link">
+	   				<a href="#video-popup"><img src="images/play-button.png" alt=""></a>
+	   			</div>
+
+	   			<h5>Hello welcome to lhander.</h5>
+	   			<h1>Our awesome app will make your life a lot easier.</h1>
+
+	   			<a class="button stroke smoothscroll" href="{% url 'signup' %}" title="">SIGN UP</a>
+
+	   		</div>
+
+   		</div>
+   	</div>
+
+   	<!-- Modal Popup
+	   ========================================================= -->
+
+      <div id="video-popup" class="popup-modal mfp-hide">
+
+		   <div class="fluid-video-wrapper">
+            <div class="fluid-width-video-wrapper" style="padding-top: 56.2%;"><iframe src="http://player.vimeo.com/video/14592941?title=0&amp;byline=0&amp;portrait=0&amp;color=faec09" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" id="fitvid0"></iframe></div>
+         </div>
+
+         <a class="close-popup">Close</a>
+
+	   </div> <!-- /video-popup -->
+
+   </section> <!-- /intro -->
+
+
+
+
+
+   <!-- footer
+   ================================================== -->
+   <footer>
+
+   	<div class="footer-main">
+
+   		<div class="row">
+
+	      	<div class="col-four tab-full mob-full footer-info">
+
+	            <div class="footer-logo"></div>
+
+	            <p>
+		        	1600 Amphitheatre Parkway<br>
+            	Mountain View, CA 94043 US<br>
+		        	info@lhander.com &nbsp; +123-456-789
+		        	</p>
+
+		      </div> <!-- /footer-info -->
+
+	      	<div class="col-two tab-1-3 mob-1-2 site-links">
+
+	      		<h4>Site Links</h4>
+
+	      		<ul>
+	      			<li><a href="#">About Us</a></li>
+						<li><a href="#">Blog</a></li>
+						<li><a href="#">FAQ</a></li>
+						<li><a href="#">Terms</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+					</ul>
+
+	      	</div> <!-- /site-links -->
+
+	      	<div class="col-two tab-1-3 mob-1-2 social-links">
+
+	      		<h4>Social</h4>
+
+	      		<ul>
+	      			<li><a href="#">Twitter</a></li>
+						<li><a href="#">Facebook</a></li>
+						<li><a href="#">Dribbble</a></li>
+						<li><a href="#">Google+</a></li>
+						<li><a href="#">Skype</a></li>
+					</ul>
+
+	      	</div> <!-- /social -->
+
+	      	<div class="col-four tab-1-3 mob-full footer-subscribe">
+
+	      		<h4>Subscribe</h4>
+
+	      		<p>Keep yourself updated. Subscribe to our newsletter.</p>
+
+	      		<div class="subscribe-form">
+
+	      			<form id="mc-form" class="group" novalidate="true">
+
+							<input type="email" value="" name="EMAIL" class="email" id="mc-email" placeholder="type email &amp; hit enter" required="">
+
+			   			<input type="submit" name="subscribe">
+
+		   				<label for="mc-email" class="subscribe-message"></label>
+
+						</form>
+
+	      		</div>
+
+	      	</div> <!-- /subscribe -->
+
+	      </div> <!-- /row -->
+
+   	</div> <!-- /footer-main -->
+
+
+      <div class="footer-bottom">
+
+      	<div class="row">
+
+      		<div class="col-twelve">
+	      		<div class="copyright">
+		         	<span>\A9 Copyright Lhander 2016.</span>
+		         	<span>Design by <a href="http://www.styleshout.com/">styleshout</a></span>
+		         </div>
+
+		         <div id="go-top" style="display: block;">
+		            <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon ion-android-arrow-up"></i></a>
+		         </div>
+	      	</div>
+
+      	</div> <!-- /footer-bottom -->
+
+      </div>
+
+   </footer>
+
+   <div id="preloader" style="display: none;">
+    	<div id="loader" style="display: none;"></div>
+   </div>
+
+   <!-- Java Script
+   ================================================== -->
+   <script src="js/jquery-1.11.3.min.js"></script>
+   <script src="js/jquery-migrate-1.2.1.min.js"></script>
+   <script src="js/plugins.js"></script>
+   <script src="js/main.js"></script>
+
+
+
+</body></html>
